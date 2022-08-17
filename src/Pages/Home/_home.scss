@@ -1,0 +1,90 @@
+.Home {
+  .categories {
+    width: 90%;
+    min-height: 64.5vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: -30px auto 0;
+    .category {
+      cursor: pointer;
+      background-color: #fff;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      width: 345px;
+      height: 435px;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+      &:hover .preViewIcon {
+        top: 10px;
+        right: 10px;
+        visibility: visible;
+        z-index: 1;
+      }
+      .preViewIcon {
+        transition: 300ms all;
+        visibility: hidden;
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        color: #fff;
+        z-index: 0;
+        font-size: 22px;
+      }
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 15px;
+        filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.25));
+        margin-bottom: 10px;
+      }
+      p.eachCategoryTitle {
+        font-family: "Exo 2", sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        margin: 0 15px;
+      }
+      div.line {
+        width: 178px;
+        height: 1px;
+        background-color: rgba(218, 218, 218, 1);
+        border: 1px solid #dadada;
+        margin: 8px 15px;
+      }
+      p.content {
+        font-family: "Exo 2", sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 13px;
+        color: #646464;
+        margin: 0 15px;
+      }
+      div.fixedTimeUser {
+        position: absolute;
+        left: 15px;
+        bottom: 10px;
+        display: flex;
+        span {
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+          .icon {
+            color: #c3c3c3;
+            margin-right: 3px;
+            font-size: 14px;
+          }
+          span {
+            font-family: "Exo 2", sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 10px;
+            color: #000000;
+          }
+        }
+      }
+    }
+  }
+}
