@@ -7,16 +7,9 @@ import { BiTimeFive } from "react-icons/bi";
 import { AiOutlineUser } from "react-icons/ai";
 import SimiliarNews from "../SimiliarNews/SimiliarNews";
 import { MainContext, useContext } from "../../_context";
-import BlogItem from "../Skeleton/Skeleton";
 function Eachnews() {
-	const {
-		setCategories,
-		setLoading,
-		categories,
-		loading,
-		detailNews,
-		setDetailNews,
-	} = useContext(MainContext);
+	const { setCategories, setLoading, detailNews, loading, categories, title, setDetailNews } =
+		useContext(MainContext);
 	const id = useParams();
 	useEffect(() => {
 		setLoading(true);
@@ -25,16 +18,17 @@ function Eachnews() {
 			.then((res) => {
 				setCategories(res.data);
 				setLoading(false);
-				setDetailNews(categories.data.find((categ) => categ.title === id.id));
-				console.log("main", detailNews);
+				setDetailNews(categories.data.find((cat) => cat.title === title))
 			})
-			.catch(function (error) {
+			.catch(function () {
 				toast.error("Error notification!");
 			});
 	}, []);
 	return (
 		<div className="EachNews">
-			{detailNews !== undefined && detailNews.author && (
+			{loading ? (
+				<p>loading</p>
+			) : (
 				<div className="someEachNews">
 					<div className="left">
 						<img src={detailNews.imageUrl} alt="pic" />
@@ -56,7 +50,7 @@ function Eachnews() {
 					</div>
 				</div>
 			)}
-			<SimiliarNews categories={categories} />
+			{loading ? <p>Loading</p> : <SimiliarNews />}
 		</div>
 	);
 }

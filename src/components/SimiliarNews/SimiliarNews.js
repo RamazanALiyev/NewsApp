@@ -2,8 +2,9 @@ import React from "react";
 import "./_similiarnews.scss";
 import { BiTimeFive } from "react-icons/bi";
 import { AiOutlineUser } from "react-icons/ai";
-
-function SimiliarNews({ categories }) {
+import { MainContext, useContext } from "../../_context";
+function SimiliarNews() {
+	const {categories} = useContext(MainContext)
 	return (
 		<div className="SimiliarNews">
 			<p className="similiarTitle">Similar news</p>

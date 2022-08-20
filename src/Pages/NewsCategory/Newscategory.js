@@ -23,7 +23,6 @@ function Newscategory() {
 			.catch(function (error) {
 				toast.error("Error notification!");
 			});
-		console.log(categories);
 	}, []);
 	return (
 		<div className="Newscategory">
