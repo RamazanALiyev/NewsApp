@@ -1,17 +1,32 @@
-import React from "react";
-import "./_home.scss";
+import React, { useEffect } from "react";
+import "./_newscategory.scss";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 import { BiTimeFive } from "react-icons/bi";
 import { AiOutlineUser, AiFillEye } from "react-icons/ai";
 import BlogItem from "../../components/Skeleton/Skeleton";
-import { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
 import { useContext, MainContext } from "../../_context";
 
-function Home() {
-	const { loading, categories } = useContext(MainContext);
+function Newscategory() {
+	const { setCategories, categories, loading, setLoading, title, setTitle } =
+		useContext(MainContext);
+	const categoryPathname = useParams();
+	useEffect(() => {
+		axios
+			.get(`https://inshorts.deta.dev/news?${categoryPathname.category}`)
+			.then((res) => {
+				setCategories(res.data);
+				setLoading(false);
+			})
+			.catch(function (error) {
+				toast.error("Error notification!");
+			});
+		console.log(categories);
+	}, []);
 	return (
-		<div className="Home">
-			<Toaster position="top-right" />
+		<div className="Newscategory">
 			{loading ? (
 				<div className="categories">
 					<BlogItem />
@@ -21,7 +36,12 @@ function Home() {
 			) : (
 				<div className="categories">
 					{categories.data.map((category, index) => (
-						<Link className="link" key={index} to={`/category==all/${category.title}`}>
+						<Link
+							onClick={() => setTitle(category.title)}
+							className="link"
+							key={index}
+							to={`/${categoryPathname.category}/${title}`}
+						>
 							<div className="category">
 								<AiFillEye className="preViewIcon" />
 								<img src={category.imageUrl} alt="pic" />
@@ -47,4 +67,4 @@ function Home() {
 	);
 }
 
-export default Home;
+export default Newscategory;
