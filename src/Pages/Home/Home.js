@@ -8,20 +8,26 @@ import { Link } from "react-router-dom";
 import { useContext, MainContext } from "../../_context";
 
 function Home() {
-	const { loading, categories } = useContext(MainContext);
+	const { datas } = useContext(MainContext);
 	return (
 		<div className="Home">
 			<Toaster position="top-right" />
-			{loading ? (
+			{datas.loading && (
 				<div className="categories">
 					<BlogItem />
 					<BlogItem />
 					<BlogItem />
 				</div>
-			) : (
+			)}
+			{!datas.loading && datas.error ? <div>Error</div> : null}
+			{!datas.loading && datas.datas.data ? (
 				<div className="categories">
-					{categories.data.map((category, index) => (
-						<Link className="link" key={index} to={`/category==all/${category.title}`}>
+					{datas.datas.data.map((category, index) => (
+						<Link
+							className="link"
+							key={index}
+							to={`/category=all/${category.id}`}
+						>
 							<div className="category">
 								<AiFillEye className="preViewIcon" />
 								<img src={category.imageUrl} alt="pic" />
@@ -42,9 +48,8 @@ function Home() {
 						</Link>
 					))}
 				</div>
-			)}
+			) : null}
 		</div>
 	);
 }
-
 export default Home;

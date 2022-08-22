@@ -1,47 +1,45 @@
 import React, { useEffect } from "react";
-import "./_newscategory.scss";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import toast from "react-hot-toast";
+import "./_newscategory.scss";
 import { Link } from "react-router-dom";
 import { BiTimeFive } from "react-icons/bi";
 import { AiOutlineUser, AiFillEye } from "react-icons/ai";
 import BlogItem from "../../components/Skeleton/Skeleton";
-import { useContext, MainContext } from "../../_context";
-
+import { fetchDatas } from "../../features/fetchData";
+import { useSelector, useDispatch } from "react-redux/es/exports";
+import { MainContext, useContext } from "../../_context";
 function Newscategory() {
-	const { setCategories, categories, loading, setLoading, title, setTitle } =
-		useContext(MainContext);
+	const { setCurId } = useContext(MainContext);
 	const categoryPathname = useParams();
+	const datas = useSelector((state) => state.data);
+	const dispatch = useDispatch();
 	useEffect(() => {
-		axios
-			.get(`https://inshorts.deta.dev/news?${categoryPathname.category}`)
-			.then((res) => {
-				setCategories(res.data);
-				setLoading(false);
-			})
-			.catch(function (error) {
-				toast.error("Error notification!");
-			});
-	}, []);
+		dispatch(fetchDatas(categoryPathname.category));
+	}, [dispatch, categoryPathname.category]);
 	return (
 		<div className="Newscategory">
-			{loading ? (
+			{datas.loading && (
 				<div className="categories">
 					<BlogItem />
 					<BlogItem />
 					<BlogItem />
 				</div>
-			) : (
+			)}
+			{!datas.loading && datas.error ? <div>Error</div> : null}
+			{!datas.loading && datas.datas.data ? (
 				<div className="categories">
-					{categories.data.map((category, index) => (
+					{datas.datas.data.map((category, index) => (
 						<Link
-							onClick={() => setTitle(category.title)}
+							to={`/${categoryPathname.category}/${category.id}`}
 							className="link"
 							key={index}
-							to={`/${categoryPathname.category}/${title}`}
 						>
-							<div className="category">
+							<div
+								onClick={() => {
+									setCurId(category.id);
+								}}
+								className="category"
+							>
 								<AiFillEye className="preViewIcon" />
 								<img src={category.imageUrl} alt="pic" />
 								<p className="eachCategoryTitle">{category.title}</p>
@@ -61,7 +59,7 @@ function Newscategory() {
 						</Link>
 					))}
 				</div>
-			)}
+			) : null}
 		</div>
 	);
 }
