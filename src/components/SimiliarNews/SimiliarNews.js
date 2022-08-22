@@ -5,7 +5,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 import { fetchDatas } from "../../features/fetchData.js";
 import { useParams } from "react-router-dom";
-import BlogItem from "../Skeleton/Skeleton";
+import SkeletonSimiliar from "../SkeletonSimiliar/SkeletonSimilar";
 import { Link } from "react-router-dom";
 function SimiliarNews({ categoryPathname }) {
 	const params = useParams();
@@ -19,9 +19,9 @@ function SimiliarNews({ categoryPathname }) {
 			<p className="similiarTitle">Similar news</p>
 			{datas.loading && (
 				<div className="categories">
-					<BlogItem />
-					<BlogItem />
-					<BlogItem />
+					<SkeletonSimiliar />
+					<SkeletonSimiliar />
+					<SkeletonSimiliar />
 				</div>
 			)}
 			{!datas.loading && datas.error ? <div>Error</div> : null}
