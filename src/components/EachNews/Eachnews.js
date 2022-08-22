@@ -4,46 +4,53 @@ import "./_eachnews.scss";
 import { BiTimeFive } from "react-icons/bi";
 import { AiOutlineUser } from "react-icons/ai";
 import SimiliarNews from "../SimiliarNews/SimiliarNews";
-// import { MainContext, useContext } from "../../_context";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import SkeletonDetail from "../SkeletonDetail/SkeletonDetail";
 function Eachnews() {
 	const [totalNewsDeatil, setTotalNewsDeatil] = useState("");
-	// const { curId } = useContext(MainContext);
+	const [findArr, setFindArr] = useState("");
 	const categoryPathname = useParams();
 	useEffect(() => {
 		axios
 			.get(`https://inshorts.deta.dev/news?${categoryPathname.category}`)
 			.then((response) => setTotalNewsDeatil(response.data));
-	}, [categoryPathname]);
-
+	}, [categoryPathname.category]);
 	useEffect(() => {
-		console.log(totalNewsDeatil);
-	}, []);
+		const find = totalNewsDeatil?.data?.find(
+			(dat) => dat.title === categoryPathname.title
+		);
+		setFindArr(find);
+		console.log("sssd", findArr);
+	}, [categoryPathname.title, findArr, totalNewsDeatil]);
 
 	return (
 		<div className="EachNews">
-			<div className="someEachNews">
-				<div className="left">
-					<img src={totalNewsDeatil?.data?.[0]?.imageUrl} alt="pic" />
-					<div className="fixedTimeUser">
-						<span className="time">
-							<BiTimeFive className="timeIcon icon" />
-							<span>{totalNewsDeatil?.data?.[0]?.time}</span>
-						</span>
-						<span className="time">
-							<AiOutlineUser className="userIcon icon" />
-							<span>{totalNewsDeatil?.data?.[0]?.author}</span>
-						</span>
+			{findArr === undefined ? (
+				<SkeletonDetail />
+			) : (
+				<div className="someEachNews">
+					<div className="left">
+						<img src={findArr?.imageUrl} alt="pic" />
+						<div className="fixedTimeUser">
+							<span className="time">
+								<BiTimeFive className="timeIcon icon" />
+								<span>{findArr?.time}</span>
+							</span>
+							<span className="time">
+								<AiOutlineUser className="userIcon icon" />
+								<span>{findArr?.author}</span>
+							</span>
+						</div>
+					</div>
+					<div className="right">
+						<p className="title">{findArr?.title}</p>
+						<div className="line"></div>
+						<p className="content">{findArr?.content}</p>
 					</div>
 				</div>
-				<div className="right">
-					<p className="title">{totalNewsDeatil?.data?.[0]?.title}</p>
-					<div className="line"></div>
-					<p className="content">{totalNewsDeatil?.data?.[0]?.content}</p>
-				</div>
-			</div>
-			<SimiliarNews />
+			)}
+			<SimiliarNews categoryPathname={categoryPathname} />
 		</div>
 	);
 }

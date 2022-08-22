@@ -7,9 +7,7 @@ import { AiOutlineUser, AiFillEye } from "react-icons/ai";
 import BlogItem from "../../components/Skeleton/Skeleton";
 import { fetchDatas } from "../../features/fetchData";
 import { useSelector, useDispatch } from "react-redux/es/exports";
-import { MainContext, useContext } from "../../_context";
 function Newscategory() {
-	const { setCurId } = useContext(MainContext);
 	const categoryPathname = useParams();
 	const datas = useSelector((state) => state.data);
 	const dispatch = useDispatch();
@@ -30,14 +28,11 @@ function Newscategory() {
 				<div className="categories">
 					{datas.datas.data.map((category, index) => (
 						<Link
-							to={`/${categoryPathname.category}/${category.id}`}
+							to={`/${categoryPathname.category}/${category.title}`}
 							className="link"
 							key={index}
 						>
 							<div
-								onClick={() => {
-									setCurId(category.id);
-								}}
 								className="category"
 							>
 								<AiFillEye className="preViewIcon" />

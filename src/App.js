@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Background from "./components/Background/Background";
 import Home from "./Pages/Home/Home";
 import NewsCategory from "./Pages/NewsCategory/Newscategory";
@@ -10,14 +10,11 @@ import { fetchDatas } from "./features/fetchData";
 function App() {
 	const datas = useSelector((state) => state.data);
 	const dispatch = useDispatch();
-	const [curId, setCurId] = useState("");
 	useEffect(() => {
 		dispatch(fetchDatas("category=all"));
 	}, [dispatch]);
 	const dataContext = {
 		datas,
-		curId,
-		setCurId,
 	};
 	return (
 		<MainContext.Provider value={dataContext}>
@@ -26,7 +23,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/:category" element={<NewsCategory />} />
-					<Route path="/:category/:id" element={<Eachnews />} />
+					<Route path="/:category/:title" element={<Eachnews />} />
 				</Routes>
 			</div>
 		</MainContext.Provider>

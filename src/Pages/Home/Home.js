@@ -26,7 +26,7 @@ function Home() {
 						<Link
 							className="link"
 							key={index}
-							to={`/category=all/${category.id}`}
+							to={`/category=all/${category.title}`}
 						>
 							<div className="category">
 								<AiFillEye className="preViewIcon" />

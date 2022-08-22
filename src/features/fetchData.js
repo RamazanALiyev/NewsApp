@@ -10,9 +10,10 @@ const initialState = {
 export const fetchDatas = createAsyncThunk(
 	"datas/fetchDatas",
 	async (differentNews) => {
-		const response = await axios
-      .get(`https://inshorts.deta.dev/news?${differentNews}`);
-    return response.data;
+		const response = await axios.get(
+			`https://inshorts.deta.dev/news?${differentNews}`
+		);
+		return response.data;
 	}
 );
 

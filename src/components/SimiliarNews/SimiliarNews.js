@@ -6,7 +6,8 @@ import { useSelector, useDispatch } from "react-redux/es/exports";
 import { fetchDatas } from "../../features/fetchData.js";
 import { useParams } from "react-router-dom";
 import BlogItem from "../Skeleton/Skeleton";
-function SimiliarNews() {
+import { Link } from "react-router-dom";
+function SimiliarNews({ categoryPathname }) {
 	const params = useParams();
 	const datas = useSelector((state) => state.data);
 	const dispatch = useDispatch();
@@ -27,26 +28,32 @@ function SimiliarNews() {
 			{!datas.loading && datas.datas.data ? (
 				<div>
 					{datas.datas.data.slice(0, 3).map((data, index) => (
-						<div className="category" key={index}>
-							<div
-								className="bgEffect"
-								style={{
-									background: `url(${data.imageUrl}), #000`,
-								}}
-							/>
-							<p className="eachCategoryTitle">{data.title}</p>
+						<Link
+							className="link"
+							to={`/${categoryPathname.category}/${data.title}`}
+							key={index}
+						>
+							<div className="category">
+								<div
+									className="bgEffect"
+									style={{
+										background: `url(${data.imageUrl}), #000`,
+									}}
+								/>
+								<p className="eachCategoryTitle">{data.title}</p>
 
-							<div className="fixedTimeUser">
-								<span className="time">
-									<BiTimeFive className="timeIcon icon" />
-									<span>{data.time}</span>
-								</span>
-								<span className="time">
-									<AiOutlineUser className="userIcon icon" />
-									<span>{data.author}</span>
-								</span>
+								<div className="fixedTimeUser">
+									<span className="time">
+										<BiTimeFive className="timeIcon icon" />
+										<span>{data.time}</span>
+									</span>
+									<span className="time">
+										<AiOutlineUser className="userIcon icon" />
+										<span>{data.author}</span>
+									</span>
+								</div>
 							</div>
-						</div>
+						</Link>
 					))}
 				</div>
 			) : null}
